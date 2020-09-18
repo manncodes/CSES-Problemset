@@ -1,65 +1,40 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define rep(i,a,n) for (int i=a;i<n;i++)
-#define per(i,a,n) for (int i=n-1;i>=a;i--) 
-#define ll long long
-#define ld long double
-#define pb push_back
-#define mp make_pair
-#define fi first
-#define se second
-#define all(x) x.begin(),x.end()
-#define ar array
-#define vt vector
+
+#define rep(i, a, b) for(int i = a; i < (b); ++i)
+#define trav(a, x) for(auto& a : x)
+#define all(x) begin(x), end(x)
 #define sz(x) (int)(x).size()
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef vector<int> vi;
 
-
-ll n,m;
-bool arr[1001][1001]={};
-
-bool in(ll i,ll j){
-    return i>=0 && i<n && j>=0 && j<n;
-}
-void dfs(ll i,ll j){
-    arr[i][j]=0;
-    if(in(i-1,j)) dfs(i-1,j);
-    if(in(i+1,j)) dfs(i+1,j);
-    if(in(i,j-1)) dfs(i,j-1);
-    if(in(i,j+1)) dfs(i,j+1);
-}
-void solve(){  
-    cin>>n>>m;
-    cout<<n<<m;
-    char c;
-    rep(i,0,n)
-        rep(j,0,m){
-            cin>>c;
-            if(c=='.') arr[i][j]=1;
-            else arr[i][j]=0;
-        }
-            
-    ll ans=0;
-    rep(i,0,n){
-        rep(j,0,m){
-            if(arr[i][j]==1)
-                dfs(i,j),ans++;
+int main() {
+    cin.sync_with_stdio(0); cin.tie(0);
+    cin.exceptions(cin.failbit);
+    
+    int R, C;
+    cin >> R >> C;
+    vector<string> f(R);
+    rep(r, 0, R) cin >> f[r];
+    int ans=0;
+    queue<pii> q;
+    vi dr{0, 0, -1, 1}, dc{-1, 1, 0, 0};
+    rep(r, 0, R) rep(c, 0, C) if (f[r][c]=='.') {
+        ans++;
+        f[r][c]='#';
+        for (q.push({r, c}); !q.empty(); q.pop()) {
+            int i=q.front().first;
+            int j=q.front().second;
+            rep(d, 0, 4) {
+                int ii=i+dr[d], jj=j+dc[d];
+                if (ii<0 || ii==R || jj<0 || jj==C)
+                    continue;
+                if (f[ii][jj]=='.')
+                    f[ii][jj]='#', q.push({ii, jj});
+            }
         }
     }
-
-    cout<<ans<<"\n";
-}
- 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);cout.tie(NULL);
-
-
-    #ifndef ONLINE_JUDGE 
-        freopen("input.txt", "r", stdin);
-        //freopen("output.txt", "w", stdout);
-    #endif
-       solve();
- 
-    //cerr << "time taken : " << (float)clock() / CLOCKS_PER_SEC << " secs" << endl;
+    cout << ans << '\n';
     return 0;
 }
