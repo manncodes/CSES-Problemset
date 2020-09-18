@@ -14,6 +14,9 @@ typedef vector<int> vi;
 int main() {
     cin.sync_with_stdio(0); cin.tie(0);
     cin.exceptions(cin.failbit);
+
+
+    // freopen("input.txt","r",stdin);
     
     constexpr int inf=1e9;
     int dr[]={-1, 1, 0, 0}, dc[]={0, 0, -1, 1};
@@ -52,6 +55,7 @@ int main() {
     if (ht[r1][c1]==inf)
         cout << "NO\n";
     else {
+        //backtracking
         string ans;
         int r=r1, c=c1;
         do {
